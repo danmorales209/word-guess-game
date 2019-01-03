@@ -28,7 +28,7 @@ class secretWord {
 
         index = Math.floor(Math.random() * upperBound);
 
-        this.currentWord = secretWordArray[index];
+        this.currentWord = this.secretWordArray[index];
     };
 
     get currentWord() {
@@ -67,7 +67,7 @@ class scoreTally {
         let returnMessage = "";
         
         if (this.lettersGuessed.includes( String(letter).toUpperCase() ) ) {
-            returnMessage = `${String( letter ).toUpperCase() } was already guessed, please select a new letter.`;
+            returnMessage = `${ String( letter ).toUpperCase() } was already guessed, please select a new letter.`;
         }
         else if (Number(letter)) {
             returnMessage = `${letter} is not a character, please select a new letter.`;
@@ -77,8 +77,17 @@ class scoreTally {
             appendLettersGuessed( letter );
             decrementGuessesLeft();
         }
+
+        return returnMessage;
+    };
+
+    resetSelf() {
+        this.guessesLeft = 10;
+        this.lettersGuessed = [];
     }
-}
+};
+
+
 
 
 
