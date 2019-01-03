@@ -10,18 +10,14 @@ class secretWord {
     // properties
     constructor() {
         this.currentWord = '';
+        this.secretWordArray = [
+            "Gandalf", "Mordor", "Galadriel"
+        ];
     };
-
-    currentWord;
-
-    static secretWordArray = [
-        "Gandalf", "Mordor", "Galadriel"
-    ];
-
 
     // methods
 
-    set currentWord() {
+    changeCurrentWord() {
         let upperBound = this.secretWordArray.length;
 
         let index = 0;
@@ -30,10 +26,6 @@ class secretWord {
 
         this.currentWord = this.secretWordArray[index];
     };
-
-    get currentWord() {
-        return this.currentWord;
-    };
 };
 
 class scoreTally {
@@ -41,14 +33,6 @@ class scoreTally {
         this.gamesWon = 0;
         this.guessesLeft = 10;
         this.lettersGuessed = [];
-    };
-
-    get gamesWon() {
-        return this.gamesWon;
-    };
-
-    get guessesLeft() {
-        return this.guessesLeft;
     };
 
     win() {
@@ -86,6 +70,18 @@ class scoreTally {
         this.lettersGuessed = [];
     }
 };
+
+var mySecretWord = new secretWord();
+var gameMaster = new scoreTally();
+
+mySecretWord.changeCurrentWord();
+
+document.onkeyup = function(event) {
+    var userKey = event.key;
+
+    alert(mySecretWord.currentWord);
+
+}
 
 
 
