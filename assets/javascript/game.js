@@ -10,6 +10,7 @@ class secretWord {
     // properties
     constructor() {
         this.currentWord = '';
+        this.currentWordDisplay = [];
         this.secretWordArray = [
             "Gandalf", "Mordor", "Galadriel"
         ];
@@ -25,7 +26,32 @@ class secretWord {
         index = Math.floor(Math.random() * upperBound);
 
         this.currentWord = this.secretWordArray[index];
+
+        initializeCurrentWordDisplay();
     };
+
+    initializeCurrentWordDisplay() {
+        for (let i = 0; i < this.currentWord.length; i++) {
+            this.currentWordDisplay.push("_");
+        }
+    };
+
+    updateCurrentWordDisplay(letter) {
+        for (let i = 0; i < this.currentWord.length; i++) {
+            if( letter.toUpperCase() === currentWord[i] ) {
+                currentWordDisplay[i] = letter.toUpperCase();
+            }
+        }
+    };
+
+    printCurrentWordDisplay() {
+        let displayString = "";
+
+        for (chars in currentWordDisplay) {
+            displayString += 
+        }
+    }
+
 };
 
 class scoreTally {
@@ -73,8 +99,18 @@ class scoreTally {
 
 var mySecretWord = new secretWord();
 var gameMaster = new scoreTally();
+var hiddenWordArray = "";
 
 mySecretWord.changeCurrentWord();
+
+for (let i = 0; i < mySecretWord.currentWord.length; i++) {
+    hiddenWordArray.push('_');
+}
+
+
+
+var secretWordDisplay = document.getElementById("secret-word-display");
+secretWordDisplay.innerHTML = mySecretWord.currentWord;
 
 document.onkeyup = function(event) {
     var userKey = event.key;
