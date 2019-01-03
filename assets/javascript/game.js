@@ -27,7 +27,7 @@ class secretWord {
 
         this.currentWord = this.secretWordArray[index];
 
-        initializeCurrentWordDisplay();
+        this.initializeCurrentWordDisplay();
     };
 
     initializeCurrentWordDisplay() {
@@ -37,9 +37,11 @@ class secretWord {
     };
 
     updateCurrentWordDisplay(letter) {
-        for (let i = 0; i < this.currentWord.length; i++) {
-            if( letter.toUpperCase() === currentWord[i] ) {
-                currentWordDisplay[i] = letter.toUpperCase();
+        if(this.isLetterInWord()) {
+            for (let i = 0; i < this.currentWord.length; i++) {
+                if (letter.toUpperCase() === currentWord[i]) {
+                    currentWordDisplay[i] = letter.toUpperCase();
+                }
             }
         }
     };
@@ -47,9 +49,19 @@ class secretWord {
     printCurrentWordDisplay() {
         let displayString = "";
 
-        for (chars in currentWordDisplay) {
-            displayString += 
+        for (let i = 0; i < this.currentWordDisplay.length; i++) {
+            if (i === (this.currentWordDisplay.length - 1)) {
+                displayString += this.currentWordDisplay[i];
+            }
+            else {
+                displayString += `${this.currentWordDisplay[i]} `;
+            }
         }
+        return displayString;
+    };
+
+    isLetterInWord(letter) {
+        return this.currentWord.includes(letter);
     }
 
 };
@@ -66,7 +78,7 @@ class scoreTally {
     };
 
     appendLettersGuessed(letter) {
-        this.lettersGuessed.push(String(letter).toUpperCase() );
+        this.lettersGuessed.push(String(letter).toUpperCase());
     };
 
     decrementGuessesLeft() {
@@ -74,22 +86,40 @@ class scoreTally {
     };
 
     letterGuessUpdate(letter) {
-        let returnMessage = "";
-        
-        if (this.lettersGuessed.includes( String(letter).toUpperCase() ) ) {
-            returnMessage = `${ String( letter ).toUpperCase() } was already guessed, please select a new letter.`;
+        let returnMessage = "Press any key to start";
+
+        if (this.lettersGuessed.includes(String(letter).toUpperCase())) {
+            returnMessage = `${String(letter).toUpperCase()} was already guessed, please select a new letter.`;
         }
         else if (Number(letter)) {
             returnMessage = `${letter} is not a character, please select a new letter.`;
 
         }
         else {
-            appendLettersGuessed( letter );
-            decrementGuessesLeft();
+            this.appendLettersGuessed(letter);
+            this.decrementGuessesLeft();
         }
 
         return returnMessage;
     };
+
+    printLettersGuessed() {
+        let stringOut = '';
+        if(this.lettersGuessed === 1) {
+            stringOut = this.lettersGuessed[0];
+        }
+        else {
+            for( let i = 0; i < this.lettersGuessed.length; i++) {
+                if(i === (this.lettersGuessed.length - 1)) {
+                    stringOut += this.lettersGuessed[i];
+                }
+                else {
+                    stringOut += `${this.lettersGuessed[i]}, `;
+                }
+        }
+            
+        }
+    }
 
     resetSelf() {
         this.guessesLeft = 10;
@@ -99,23 +129,25 @@ class scoreTally {
 
 var mySecretWord = new secretWord();
 var gameMaster = new scoreTally();
-var hiddenWordArray = "";
 
 mySecretWord.changeCurrentWord();
 
-for (let i = 0; i < mySecretWord.currentWord.length; i++) {
-    hiddenWordArray.push('_');
-}
-
-
-
 var secretWordDisplay = document.getElementById("secret-word-display");
-secretWordDisplay.innerHTML = mySecretWord.currentWord;
+secretWordDisplay.innerText = mySecretWord.printCurrentWordDisplay();
 
-document.onkeyup = function(event) {
+var gameTallyDisplay = document.getElementById("games-won");
+gameTallyDisplay.innerText = gameMaster.gamesWon;
+
+var guessesLeftDisplay = document.getElementById("guesses-remaining");
+guessesLeftDisplay.innerText = gameMaster.guessesLeft;
+
+var guessMessage = document.getElementById("guess-message");
+guessMessage.innerText = "Press any key to start!";
+
+document.onkeyup = function (event) {
     var userKey = event.key;
 
-    alert(mySecretWord.currentWord);
+    guessMessage.innerText = gameMaster.letterGuessUpdate(userKey);
 
 }
 
