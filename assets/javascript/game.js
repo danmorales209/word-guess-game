@@ -12,8 +12,15 @@ class secretWord {
         this.currentWord = '';
         this.currentWordDisplay = [];
         this.secretWordArray = [
-            "Gandalf", "Mordor", "Galadriel"
+            "Gandalf", "Mordor", "Galadriel", "Aragorn", "Frodo"
         ];
+        this.secretWordSounds = [
+            "neverlate", "blackgate", "task", "protect", "happen"
+        ];
+        this.secretWordImg = [
+            "Gandalf", "mordor", "Galadriel", "aragorn", "frodo"
+        ];
+        this.index = 0;
     };
 
     // methods
@@ -21,9 +28,7 @@ class secretWord {
     changeCurrentWord() {
         let upperBound = this.secretWordArray.length;
 
-        let index = 0;
-
-        index = Math.floor(Math.random() * upperBound);
+        this.index = Math.floor(Math.random() * upperBound);
 
         this.currentWord = this.secretWordArray[index];
 
@@ -62,7 +67,17 @@ class secretWord {
 
     isLetterInWord(letter) {
         return this.currentWord.toUpperCase().includes(letter.toUpperCase());
+    };
+
+    pushImg() {
+        return `assets\\images\\${this.secretWordImg[this.index]}.png`;
+    };
+
+    pushSound() {
+        return `assets\\audio\\${this.secretWordSounds[this.index]}.wav`;
     }
+
+
 
 };
 
