@@ -137,11 +137,14 @@ class scoreTally {
     }
 };
 
+// Instanitate the classes
 var mySecretWord = new secretWord();
 var gameMaster = new scoreTally();
 
+// Set the first secret word
 mySecretWord.changeCurrentWord();
 
+// Initialize the HTML content with the 
 var secretWordDisplay = document.getElementById("secret-word-display");
 secretWordDisplay.innerText = mySecretWord.printCurrentWordDisplay();
 
@@ -168,6 +171,7 @@ document.onkeyup = function (event) {
     secretWordDisplay.innerText = mySecretWord.printCurrentWordDisplay();
 
     guessesLeftDisplay.innerText = gameMaster.guessesLeft;
+
 
     
 
