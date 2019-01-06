@@ -86,7 +86,7 @@ class scoreTally {
     };
 
     letterGuessUpdate(letter) {
-        let returnMessage = "Press any key to start";
+        let returnMessage = "Press a letter to guess!";
 
         if (this.lettersGuessed.includes(String(letter).toUpperCase())) {
             returnMessage = `${String(letter).toUpperCase()} was already guessed, please select a new letter.`;
@@ -137,12 +137,48 @@ class scoreTally {
     }
 };
 
+function initialKeyUp(event) {
+    for (let i = 0; i < hiddenElements.length; i++) {
+        hiddenElements[i].style.display = "initial";
+    }
+    document.getElementById("initial-message").style.display = "none";
+    document.addEventListener("keyup", guessKeyUp);
+    console.log(event.key);
+    document.removeEventListener("keyup", initialKeyUp);
+}
+
+function guessKeyUp (event) {
+    
+    var userKey = event.key;
+
+    guessMessage.innerText = gameMaster.letterGuessUpdate(userKey);
+    guessedLettersDisplay.innerText = gameMaster.printLettersGuessed();
+
+    mySecretWord.updateCurrentWordDisplay(userKey);
+
+    secretWordDisplay.innerText = mySecretWord.printCurrentWordDisplay();
+
+    guessesLeftDisplay.innerText = gameMaster.guessesLeft;
+
+}
+
+function initialHiddenState() {
+    for(let i=0; i < hiddenElements.length; i++) {
+        hiddenElements[i].style.display = "none";
+    }
+}
+
+
 // Instanitate the classes
 var mySecretWord = new secretWord();
 var gameMaster = new scoreTally();
+var hiddenElements = document.getElementsByClassName("hidden");
+
+initialHiddenState();
 
 // Set the first secret word
 mySecretWord.changeCurrentWord();
+
 
 // Initialize the HTML content with the 
 var secretWordDisplay = document.getElementById("secret-word-display");
@@ -155,27 +191,12 @@ var guessesLeftDisplay = document.getElementById("guesses-remaining");
 guessesLeftDisplay.innerText = gameMaster.guessesLeft;
 
 var guessMessage = document.getElementById("guess-message");
-guessMessage.innerText = "Press any key to start!";
+guessMessage.innerText = "Press a letter to guess!";
 
 var guessedLettersDisplay = document.getElementById("guessed-letters-display");
 guessedLettersDisplay.innerText = gameMaster.printLettersGuessed();
 
-document.onkeyup = function (event) {
-    var userKey = event.key;
-
-    guessMessage.innerText = gameMaster.letterGuessUpdate(userKey);
-    guessedLettersDisplay.innerText = gameMaster.printLettersGuessed();
-
-    mySecretWord.updateCurrentWordDisplay(userKey);
-
-    secretWordDisplay.innerText = mySecretWord.printCurrentWordDisplay();
-
-    guessesLeftDisplay.innerText = gameMaster.guessesLeft;
-
-
-    
-
-}
+document.addEventListener("keyup", initialKeyUp );
 
 
 
